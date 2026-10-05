@@ -4,3 +4,4 @@ data/processed/*.sqlite
 __pycache__/
 *.pyc
 .venv/
+**/.pbi/

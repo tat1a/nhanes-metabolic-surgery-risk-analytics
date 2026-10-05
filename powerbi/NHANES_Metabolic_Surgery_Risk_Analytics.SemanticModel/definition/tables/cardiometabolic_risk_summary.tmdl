@@ -1,0 +1,37 @@
+table cardiometabolic_risk_summary
+	lineageTag: a22c46a3-9733-4d12-b6ca-8124b61bf793
+
+	column risk_signal
+		dataType: string
+		lineageTag: a8408a9a-3d5a-4f7d-b31a-4391bb67e0ff
+		summarizeBy: none
+		sourceColumn: risk_signal
+
+	column overall_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b2bcc95c-c2b1-4ffd-9357-96b8a5d44714
+		summarizeBy: none
+		sourceColumn: overall_rate
+
+	column eligible_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: da033d45-04db-4c0c-bebc-e9b8336b3d44
+		summarizeBy: none
+		sourceColumn: eligible_rate
+
+	column not_eligible_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 78809998-65a5-45ab-b51f-5342038144f4
+		summarizeBy: none
+		sourceColumn: not_eligible_rate
+
+	partition cardiometabolic_risk_summary = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [risk_signal = text, overall_rate = number, eligible_rate = number, not_eligible_rate = number], {{"Diabetes or A1c diabetes range", 0.138016438042, 0.233199931365, 0.0803206635095}, {"Hypertension or treatment", 0.507763163119, 0.702669379475, 0.389620145656}, {"Dyslipidemia signal", 0.571815296843, 0.747244939168, 0.465478066127}, {"Central adiposity signal", 0.578124245963, 0.939078803485, 0.359330503054}, {"Two or more risk signals", 0.588832604736, 0.915377233863, 0.390896548397}})
+				in
+				    Source

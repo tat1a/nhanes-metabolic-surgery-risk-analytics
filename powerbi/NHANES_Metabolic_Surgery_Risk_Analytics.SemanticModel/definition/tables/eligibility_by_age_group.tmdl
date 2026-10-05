@@ -1,0 +1,71 @@
+table eligibility_by_age_group
+	lineageTag: fbdd1ca4-ef2b-4be8-a67a-f8516824b4db
+
+	column age_group
+		dataType: string
+		lineageTag: 7cce213d-1918-4f57-9525-aeef7d54a7d1
+		summarizeBy: none
+		sourceColumn: age_group
+
+	column unweighted_n
+		dataType: int64
+		lineageTag: 849f0229-e166-4ed1-bebb-aab6ea7b85fa
+		summarizeBy: sum
+		sourceColumn: unweighted_n
+
+	column weighted_share
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 867e26d8-6994-443d-b285-c00f5d66d8c7
+		summarizeBy: none
+		sourceColumn: weighted_share
+
+	column guideline_like_eligible_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0783009e-3003-4f01-ac93-6c416d575763
+		summarizeBy: none
+		sourceColumn: guideline_like_eligible_rate
+
+	column mean_bmi
+		dataType: double
+		formatString: 0.0
+		lineageTag: b1ade832-e92a-451e-a4a2-0ae3209c2536
+		summarizeBy: sum
+		sourceColumn: mean_bmi
+
+	column diabetes_or_lab_range_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 9d1dd8a3-361c-4c48-bd94-3d2aad467174
+		summarizeBy: none
+		sourceColumn: diabetes_or_lab_range_rate
+
+	column hypertension_or_treatment_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b52df27b-0856-43f0-8f47-8178667ec4c1
+		summarizeBy: none
+		sourceColumn: hypertension_or_treatment_rate
+
+	column dyslipidemia_signal_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0aa40a5f-fc86-4473-872a-241cc21f4760
+		summarizeBy: none
+		sourceColumn: dyslipidemia_signal_rate
+
+	column mean_risk_signal_count
+		dataType: double
+		formatString: 0.0
+		lineageTag: b7779cdf-084d-4ff7-ab2c-9977f9823f96
+		summarizeBy: sum
+		sourceColumn: mean_risk_signal_count
+
+	partition eligibility_by_age_group = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [age_group = text, unweighted_n = Int64.Type, weighted_share = number, guideline_like_eligible_rate = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"20-39", 2489, 0.35646043484, 0.331418557969, 29.316644821, 0.0292087823312, 0.277847992549, 0.404869731252, 1.1656275204}, {"40-59", 2765, 0.345802676544, 0.403062165083, 30.4216610121, 0.146837975594, 0.537045521092, 0.602153905191, 1.90659650775}, {"60-79", 2511, 0.253641826268, 0.418170417442, 29.8335572259, 0.252119738854, 0.739317605693, 0.742414187329, 2.41933942582}, {"80+", 530, 0.0440950623478, 0.313216019882, 28.3209913304, 0.292086826171, 0.804799872509, 0.702154216621, 2.43263530377}})
+				in
+				    Source

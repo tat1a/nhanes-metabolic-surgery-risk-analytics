@@ -1,0 +1,71 @@
+table eligibility_by_race_ethnicity
+	lineageTag: b0a91b7b-c69f-4b1f-b0f7-c1f64b3cde46
+
+	column race_ethnicity
+		dataType: string
+		lineageTag: 147cab66-059b-4b76-bb7d-1eef97e4419d
+		summarizeBy: none
+		sourceColumn: race_ethnicity
+
+	column unweighted_n
+		dataType: int64
+		lineageTag: ae87a726-9c70-45c9-a457-76fc806e82ba
+		summarizeBy: sum
+		sourceColumn: unweighted_n
+
+	column weighted_share
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 8a26f3d1-5b5b-4744-99bf-6b5a5f4f705d
+		summarizeBy: none
+		sourceColumn: weighted_share
+
+	column guideline_like_eligible_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 00251acb-b42a-4887-8a98-cc07aa139e21
+		summarizeBy: none
+		sourceColumn: guideline_like_eligible_rate
+
+	column mean_bmi
+		dataType: double
+		formatString: 0.0
+		lineageTag: 9f81966f-44b5-4cf7-90a4-b4af3cb6ac1e
+		summarizeBy: sum
+		sourceColumn: mean_bmi
+
+	column diabetes_or_lab_range_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f9ffdd7b-ed9a-4fcc-82a2-3be7c1ccf99a
+		summarizeBy: none
+		sourceColumn: diabetes_or_lab_range_rate
+
+	column hypertension_or_treatment_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 3aab9e61-8879-469a-a70f-2d8d5041f0a2
+		summarizeBy: none
+		sourceColumn: hypertension_or_treatment_rate
+
+	column dyslipidemia_signal_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 8f9d691e-eb93-4846-a12c-6d6e0a9e83cf
+		summarizeBy: none
+		sourceColumn: dyslipidemia_signal_rate
+
+	column mean_risk_signal_count
+		dataType: double
+		formatString: 0.0
+		lineageTag: e8c43181-037e-442a-a332-bd57da3aee3c
+		summarizeBy: sum
+		sourceColumn: mean_risk_signal_count
+
+	partition eligibility_by_race_ethnicity = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [race_ethnicity = text, unweighted_n = Int64.Type, weighted_share = number, guideline_like_eligible_rate = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"Mexican American", 957, 0.0820166620114, 0.441111175382, 30.674550244, 0.158488526848, 0.360562303973, 0.587165673596, 1.71342888984}, {"Non-Hispanic Asian", 1014, 0.0596123289734, 0.132563996484, 25.9807065498, 0.15901869785, 0.439792538694, 0.527404476122, 1.41959809181}, {"Non-Hispanic Black", 2213, 0.113055150702, 0.452145711494, 31.242242732, 0.162680473527, 0.594234926874, 0.471746603866, 1.82006071638}, {"Non-Hispanic White", 2866, 0.630212462282, 0.376101858017, 29.7159583118, 0.126699429179, 0.521198047013, 0.590768941743, 1.84219300182}, {"Other / Multiracial", 396, 0.0401038787772, 0.456179156822, 30.7822995277, 0.188174274773, 0.561588189623, 0.567881670344, 1.95038025464}, {"Other Hispanic", 849, 0.0749995172541, 0.358367895564, 29.6991459597, 0.130031772772, 0.450740242163, 0.584010807566, 1.67475528393}})
+				in
+				    Source

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "NHANES_Metabolic_Surgery_Risk_Analytics"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "61017caa-5017-47f2-870b-87ebb038ac70"
+  }
+}

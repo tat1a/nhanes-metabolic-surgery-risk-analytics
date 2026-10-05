@@ -1,0 +1,29 @@
+table dashboard_kpis
+	lineageTag: 6c0e88af-02fc-4f9e-aa3c-27cc5141f0d8
+
+	column metric
+		dataType: string
+		lineageTag: 9e1b0821-959d-41b9-9fd8-cfe7bda604fd
+		summarizeBy: none
+		sourceColumn: metric
+
+	column value
+		dataType: double
+		formatString: 0.0
+		lineageTag: 3e4e90fb-5371-412e-8ad9-36e1bf839236
+		summarizeBy: none
+		sourceColumn: value
+
+	column format
+		dataType: string
+		lineageTag: c1f2d9f5-720f-4771-8914-c2f9ae0eb522
+		summarizeBy: none
+		sourceColumn: format
+
+	partition dashboard_kpis = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [metric = text, value = number, format = text], {{"Analytic cohort adults", 8295, "count"}, {"Weighted eligibility rate", 0.377394367083, "percent"}, {"BMI >=35 recommended rate", 0.200004324963, "percent"}, {"BMI 30-34.9 + metabolic disease rate", 0.177390042121, "percent"}, {"Mean BMI among eligible adults", 36.9084083639, "decimal"}, {"Eligible adults with 2+ risk signals", 0.915377233863, "percent"}})
+				in
+				    Source

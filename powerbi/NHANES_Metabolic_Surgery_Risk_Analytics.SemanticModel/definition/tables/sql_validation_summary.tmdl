@@ -1,0 +1,22 @@
+table sql_validation_summary
+	lineageTag: 572e4ff9-b0eb-4b3d-8771-41b0d2d5a55d
+
+	column check_name
+		dataType: string
+		lineageTag: fd32d810-67af-4f3c-b301-827aed6f758f
+		summarizeBy: none
+		sourceColumn: check_name
+
+	column check_value
+		dataType: double
+		lineageTag: c62eed03-2a30-4cbb-9d68-2dd2416959d6
+		summarizeBy: sum
+		sourceColumn: check_value
+
+	partition sql_validation_summary = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [check_name = text, check_value = number], {{"analytic_cohort_n", 8295}, {"unweighted_eligible_n", 3248}, {"unweighted_bmi_35_recommended_n", 1733}, {"unweighted_bmi_30_349_metabolic_n", 1515}, {"eligible_with_2plus_risk_n", 2975}, {"weighted_eligibility_rate", 0.377394367083}, {"weighted_bmi_35_recommended_rate", 0.200004324963}, {"weighted_bmi_30_349_metabolic_rate", 0.177390042121}, {"weighted_mean_bmi_eligible", 36.9084083639}})
+				in
+				    Source

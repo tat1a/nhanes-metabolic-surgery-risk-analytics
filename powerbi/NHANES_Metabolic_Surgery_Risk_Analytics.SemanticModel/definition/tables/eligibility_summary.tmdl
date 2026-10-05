@@ -1,0 +1,64 @@
+table eligibility_summary
+	lineageTag: b656352f-4227-4e29-8dbd-39f86f606ef9
+
+	column eligibility_group
+		dataType: string
+		lineageTag: bd6da633-f999-4fc3-9ec3-00c8f1335051
+		summarizeBy: none
+		sourceColumn: eligibility_group
+
+	column unweighted_n
+		dataType: int64
+		lineageTag: 13b48ffb-6204-402e-b381-6677c3371eab
+		summarizeBy: sum
+		sourceColumn: unweighted_n
+
+	column weighted_share
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 5bdc2de1-3a45-4cde-b2b1-7e3c02df16a2
+		summarizeBy: none
+		sourceColumn: weighted_share
+
+	column mean_bmi
+		dataType: double
+		formatString: 0.0
+		lineageTag: 79789d31-9926-4d4f-a3d0-546576b21101
+		summarizeBy: sum
+		sourceColumn: mean_bmi
+
+	column diabetes_or_lab_range_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: a3e7be97-9229-45e4-ae12-67f219125f81
+		summarizeBy: none
+		sourceColumn: diabetes_or_lab_range_rate
+
+	column hypertension_or_treatment_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 5a944ad0-a6f2-4e52-906a-2f773eabe337
+		summarizeBy: none
+		sourceColumn: hypertension_or_treatment_rate
+
+	column dyslipidemia_signal_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 306f37c0-3f12-4845-858b-3a3b173e3cfd
+		summarizeBy: none
+		sourceColumn: dyslipidemia_signal_rate
+
+	column mean_risk_signal_count
+		dataType: double
+		formatString: 0.0
+		lineageTag: 7f57f930-83a9-423b-b70a-92b1de0c7def
+		summarizeBy: sum
+		sourceColumn: mean_risk_signal_count
+
+	partition eligibility_summary = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [eligibility_group = text, unweighted_n = Int64.Type, weighted_share = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"Not guideline-like eligible", 5047, 0.622605632917, 25.4686808603, 0.0803206635095, 0.389620145656, 0.465478066127, 1.29474937835}, {"BMI >=35: guideline-recommended", 1733, 0.200004324963, 41.0335677021, 0.23869317537, 0.662371211582, 0.714947345813, 2.56708330632}, {"BMI 30-34.9 + metabolic disease: consider", 1515, 0.177390042121, 32.2573597541, 0.227006390025, 0.748104894177, 0.783659939016, 2.68432837772}})
+				in
+				    Source

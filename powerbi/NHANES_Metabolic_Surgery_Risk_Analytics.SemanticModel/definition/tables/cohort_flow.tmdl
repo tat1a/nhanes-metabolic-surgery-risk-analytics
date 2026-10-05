@@ -1,0 +1,22 @@
+table cohort_flow
+	lineageTag: 289ae8f0-2c4c-4c95-a591-9c7c902df7cc
+
+	column step
+		dataType: string
+		lineageTag: 7fccf382-4b37-48b8-982f-dbce4b25fd71
+		summarizeBy: none
+		sourceColumn: step
+
+	column records
+		dataType: int64
+		lineageTag: 9b03176a-08f4-4dcf-8213-65c08fe63157
+		summarizeBy: sum
+		sourceColumn: records
+
+	partition cohort_flow = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [step = text, records = Int64.Type], {{"NHANES 2017-March 2020 public-use participants", 15560}, {"Adults age 20+", 9232}, {"Pregnancy excluded for primary BMI cohort", 9145}, {"BMI available", 8295}, {"Final analytic cohort", 8295}})
+				in
+				    Source

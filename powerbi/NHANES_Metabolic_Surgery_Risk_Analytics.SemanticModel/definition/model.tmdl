@@ -1,0 +1,25 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["analytic_cohort", "dashboard_kpis", "eligibility_summary", "cardiometabolic_risk_summary", "eligibility_by_age_group", "eligibility_by_sex", "eligibility_by_race_ethnicity", "eligibility_by_bmi_category", "missingness_summary", "cohort_flow", "sql_validation_summary"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+ref table analytic_cohort
+ref table dashboard_kpis
+ref table eligibility_summary
+ref table cardiometabolic_risk_summary
+ref table eligibility_by_age_group
+ref table eligibility_by_sex
+ref table eligibility_by_race_ethnicity
+ref table eligibility_by_bmi_category
+ref table missingness_summary
+ref table cohort_flow
+ref table sql_validation_summary

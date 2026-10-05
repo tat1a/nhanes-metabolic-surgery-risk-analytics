@@ -1,0 +1,8 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../NHANES_Metabolic_Surgery_Risk_Analytics.SemanticModel"
+    }
+  }
+}

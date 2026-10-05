@@ -1,0 +1,71 @@
+table eligibility_by_sex
+	lineageTag: 7efd59b5-2662-4c06-a5a7-66cef8d820b5
+
+	column sex
+		dataType: string
+		lineageTag: 84650ca5-ca4b-4760-9726-4fa2f0685226
+		summarizeBy: none
+		sourceColumn: sex
+
+	column unweighted_n
+		dataType: int64
+		lineageTag: 9ae4de50-f6a1-4efb-b6e7-c6985a5de5ba
+		summarizeBy: sum
+		sourceColumn: unweighted_n
+
+	column weighted_share
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7dc64a0e-5e76-4fec-be7d-b6cf125845ff
+		summarizeBy: none
+		sourceColumn: weighted_share
+
+	column guideline_like_eligible_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 64d12035-2363-4a3f-8afc-a5d429abdcac
+		summarizeBy: none
+		sourceColumn: guideline_like_eligible_rate
+
+	column mean_bmi
+		dataType: double
+		formatString: 0.0
+		lineageTag: 4de67b03-56e9-47e9-9b04-804b52506700
+		summarizeBy: sum
+		sourceColumn: mean_bmi
+
+	column diabetes_or_lab_range_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 5309f225-4139-4e81-8c87-583d20a6c504
+		summarizeBy: none
+		sourceColumn: diabetes_or_lab_range_rate
+
+	column hypertension_or_treatment_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: fcd3a52a-1ebb-458c-a792-5390ba9ade3f
+		summarizeBy: none
+		sourceColumn: hypertension_or_treatment_rate
+
+	column dyslipidemia_signal_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7aa3ab5b-bf36-4815-ba13-a6093116efd6
+		summarizeBy: none
+		sourceColumn: dyslipidemia_signal_rate
+
+	column mean_risk_signal_count
+		dataType: double
+		formatString: 0.0
+		lineageTag: 78181a5b-b600-48ba-a37b-5abd0e05dc7a
+		summarizeBy: sum
+		sourceColumn: mean_risk_signal_count
+
+	partition eligibility_by_sex = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [sex = text, unweighted_n = Int64.Type, weighted_share = number, guideline_like_eligible_rate = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"Female", 4244, 0.51467724922, 0.38577610231, 29.9795497829, 0.127047448942, 0.48049816082, 0.57426079112, 1.84814336407}, {"Male", 4051, 0.48532275078, 0.368505666887, 29.5806807799, 0.14964888084, 0.536677275142, 0.569221888095, 1.74012407172}})
+				in
+				    Source

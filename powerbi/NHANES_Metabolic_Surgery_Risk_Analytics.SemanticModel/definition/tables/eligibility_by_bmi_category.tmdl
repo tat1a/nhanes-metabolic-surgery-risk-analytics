@@ -1,0 +1,71 @@
+table eligibility_by_bmi_category
+	lineageTag: 3fbd0dc6-b175-42ff-94d1-51fd835e7c4c
+
+	column bmi_category
+		dataType: string
+		lineageTag: 90ac614e-5f2b-404e-b157-f96cb86be804
+		summarizeBy: none
+		sourceColumn: bmi_category
+
+	column unweighted_n
+		dataType: int64
+		lineageTag: fac57bce-3126-41ed-ae96-0e4a0b6def4f
+		summarizeBy: sum
+		sourceColumn: unweighted_n
+
+	column weighted_share
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: da5c7fde-03d0-4623-ab95-c55bbd7a4994
+		summarizeBy: none
+		sourceColumn: weighted_share
+
+	column guideline_like_eligible_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: dac903f1-7675-4bac-9aab-da91823f7f7b
+		summarizeBy: none
+		sourceColumn: guideline_like_eligible_rate
+
+	column mean_bmi
+		dataType: double
+		formatString: 0.0
+		lineageTag: 41d1b3aa-7ed4-4fd9-93cf-6ae5b7f1b5bb
+		summarizeBy: sum
+		sourceColumn: mean_bmi
+
+	column diabetes_or_lab_range_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: ec130b62-4a09-4762-9080-d978c60c9397
+		summarizeBy: none
+		sourceColumn: diabetes_or_lab_range_rate
+
+	column hypertension_or_treatment_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 3722ae3e-d63d-47cb-9a60-5b4fc844bb82
+		summarizeBy: none
+		sourceColumn: hypertension_or_treatment_rate
+
+	column dyslipidemia_signal_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: ccc8794b-9eff-4631-a41b-07fe27a340b3
+		summarizeBy: none
+		sourceColumn: dyslipidemia_signal_rate
+
+	column mean_risk_signal_count
+		dataType: double
+		formatString: 0.0
+		lineageTag: 42bcecaf-42f0-45cf-bbe5-12fece9e272a
+		summarizeBy: sum
+		sourceColumn: mean_risk_signal_count
+
+	partition eligibility_by_bmi_category = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [bmi_category = text, unweighted_n = Int64.Type, weighted_share = number, guideline_like_eligible_rate = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"Normal or underweight", 2111, 0.264823794539, 0, 22.1291834489, 0.0518439890178, 0.330356735384, 0.379807905232, 0.851080673934}, {"Obesity class I", 1802, 0.218694303933, 0.811132429744, 32.2378447935, 0.184132244708, 0.606812140517, 0.635651990427, 2.34291602186}, {"Obesity class II", 938, 0.110243406007, 1, 37.0831244188, 0.226064400533, 0.664650168268, 0.715549692954, 2.5699236065}, {"Obesity class III", 795, 0.0897609189564, 1, 45.8854601277, 0.254203702312, 0.659572221217, 0.714207549461, 2.56359487985}, {"Overweight", 2649, 0.316477576565, 0, 27.3906015957, 0.114632373132, 0.490061175426, 0.597916280085, 1.72057238295}})
+				in
+				    Source

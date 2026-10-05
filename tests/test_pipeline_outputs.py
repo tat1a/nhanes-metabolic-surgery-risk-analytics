@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
 ASSETS = ROOT / "assets"
 POWERBI = ROOT / "powerbi"
+PBIP_NAME = "NHANES_Metabolic_Surgery_Risk_Analytics"
 
 
 class PipelineOutputTests(unittest.TestCase):
@@ -33,6 +34,9 @@ class PipelineOutputTests(unittest.TestCase):
             ASSETS / "powerbi-page-3-equity-audit.png",
             POWERBI / "theme-metabolic-surgery.json",
             POWERBI / "measures.dax",
+            POWERBI / f"{PBIP_NAME}.pbip",
+            POWERBI / f"{PBIP_NAME}.Report" / "definition" / "pages" / "pages.json",
+            POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition" / "model.tmdl",
         ]
         for path in expected:
             self.assertTrue(path.exists(), f"Missing expected output: {path}")
@@ -82,6 +86,32 @@ class PipelineOutputTests(unittest.TestCase):
         with (POWERBI / "theme-metabolic-surgery.json").open("r", encoding="utf-8") as handle:
             parsed = json.load(handle)
         self.assertEqual(parsed["name"], "Metabolic Surgery Clinical Research")
+
+    def test_starter_powerbi_project_has_expected_tables_and_pages(self) -> None:
+        with (POWERBI / f"{PBIP_NAME}.pbip").open("r", encoding="utf-8") as handle:
+            pbip = json.load(handle)
+        self.assertEqual(pbip["artifacts"][0]["report"]["path"], f"{PBIP_NAME}.Report")
+
+        model_text = (POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition" / "model.tmdl").read_text(
+            encoding="utf-8"
+        )
+        for table in [
+            "analytic_cohort",
+            "dashboard_kpis",
+            "eligibility_summary",
+            "cardiometabolic_risk_summary",
+            "missingness_summary",
+            "sql_validation_summary",
+        ]:
+            self.assertIn(f"ref table {table}", model_text)
+
+        pages_path = POWERBI / f"{PBIP_NAME}.Report" / "definition" / "pages" / "pages.json"
+        with pages_path.open("r", encoding="utf-8") as handle:
+            pages = json.load(handle)
+        self.assertEqual(
+            pages["pageOrder"],
+            ["eligibilityOverview", "riskProfile", "equityAudit"],
+        )
 
     def test_no_restricted_data_claims(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8").lower()

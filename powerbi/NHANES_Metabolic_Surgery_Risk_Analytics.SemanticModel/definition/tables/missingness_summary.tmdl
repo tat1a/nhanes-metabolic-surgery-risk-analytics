@@ -1,0 +1,35 @@
+table missingness_summary
+	lineageTag: 2e82b354-9304-4a4f-9775-983c8788e34e
+
+	column field
+		dataType: string
+		lineageTag: f1c446a2-9e06-4122-9d2b-9818fed0d81f
+		summarizeBy: none
+		sourceColumn: field
+
+	column non_missing_n
+		dataType: int64
+		lineageTag: 1876216a-4817-43b6-a5be-1bc888f6aa5e
+		summarizeBy: sum
+		sourceColumn: non_missing_n
+
+	column missing_n
+		dataType: int64
+		lineageTag: 18422b9c-eb7e-45e3-9dae-41054ae7e6b0
+		summarizeBy: sum
+		sourceColumn: missing_n
+
+	column missing_rate
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 05cff4aa-e229-47ae-a238-6ae6416be8cc
+		summarizeBy: none
+		sourceColumn: missing_rate
+
+	partition missingness_summary = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [field = text, non_missing_n = Int64.Type, missing_n = Int64.Type, missing_rate = number], {{"LDL cholesterol", 3797, 4498, 0.542254370102}, {"Triglycerides", 3829, 4466, 0.538396624473}, {"Systolic BP", 7502, 793, 0.0955997588909}, {"Diastolic BP", 7502, 793, 0.0955997588909}, {"HDL cholesterol", 7719, 576, 0.0694394213382}, {"Total cholesterol", 7719, 576, 0.0694394213382}, {"A1c", 7875, 420, 0.0506329113924}, {"Waist circumference", 7963, 332, 0.0400241109102}, {"BMI", 8295, 0, 0}})
+				in
+				    Source
