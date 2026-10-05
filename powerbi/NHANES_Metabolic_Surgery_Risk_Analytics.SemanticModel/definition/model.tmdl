@@ -23,3 +23,6 @@ ref table eligibility_by_bmi_category
 ref table missingness_summary
 ref table cohort_flow
 ref table sql_validation_summary
+
+ref cultureInfo en-US
+

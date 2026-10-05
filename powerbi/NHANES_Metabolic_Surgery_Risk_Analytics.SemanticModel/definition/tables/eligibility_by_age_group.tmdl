@@ -69,3 +69,4 @@ table eligibility_by_age_group
 				    Source = #table(type table [age_group = text, unweighted_n = Int64.Type, weighted_share = number, guideline_like_eligible_rate = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"20-39", 2489, 0.35646043484, 0.331418557969, 29.316644821, 0.0292087823312, 0.277847992549, 0.404869731252, 1.1656275204}, {"40-59", 2765, 0.345802676544, 0.403062165083, 30.4216610121, 0.146837975594, 0.537045521092, 0.602153905191, 1.90659650775}, {"60-79", 2511, 0.253641826268, 0.418170417442, 29.8335572259, 0.252119738854, 0.739317605693, 0.742414187329, 2.41933942582}, {"80+", 530, 0.0440950623478, 0.313216019882, 28.3209913304, 0.292086826171, 0.804799872509, 0.702154216621, 2.43263530377}})
 				in
 				    Source
+

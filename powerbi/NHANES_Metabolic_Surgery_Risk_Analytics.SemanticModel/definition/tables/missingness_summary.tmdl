@@ -33,3 +33,4 @@ table missingness_summary
 				    Source = #table(type table [field = text, non_missing_n = Int64.Type, missing_n = Int64.Type, missing_rate = number], {{"LDL cholesterol", 3797, 4498, 0.542254370102}, {"Triglycerides", 3829, 4466, 0.538396624473}, {"Systolic BP", 7502, 793, 0.0955997588909}, {"Diastolic BP", 7502, 793, 0.0955997588909}, {"HDL cholesterol", 7719, 576, 0.0694394213382}, {"Total cholesterol", 7719, 576, 0.0694394213382}, {"A1c", 7875, 420, 0.0506329113924}, {"Waist circumference", 7963, 332, 0.0400241109102}, {"BMI", 8295, 0, 0}})
 				in
 				    Source
+

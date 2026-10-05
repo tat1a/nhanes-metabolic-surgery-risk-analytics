@@ -69,3 +69,4 @@ table eligibility_by_sex
 				    Source = #table(type table [sex = text, unweighted_n = Int64.Type, weighted_share = number, guideline_like_eligible_rate = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"Female", 4244, 0.51467724922, 0.38577610231, 29.9795497829, 0.127047448942, 0.48049816082, 0.57426079112, 1.84814336407}, {"Male", 4051, 0.48532275078, 0.368505666887, 29.5806807799, 0.14964888084, 0.536677275142, 0.569221888095, 1.74012407172}})
 				in
 				    Source
+

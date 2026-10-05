@@ -1,1 +1,165 @@
-{}
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "analytic_cohort",
+          "nodeLineageTag": "924a9ed9-2572-4e8a-b19d-06c101aadb4b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 62
+          },
+          "nodeIndex": "cardiometabolic_risk_summary",
+          "nodeLineageTag": "a22c46a3-9733-4d12-b6ca-8124b61bf793",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 86
+          },
+          "nodeIndex": "cohort_flow",
+          "nodeLineageTag": "289ae8f0-2c4c-4c95-a591-9c7c902df7cc",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 74
+          },
+          "nodeIndex": "dashboard_kpis",
+          "nodeLineageTag": "6c0e88af-02fc-4f9e-aa3c-27cc5141f0d8",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 2
+          },
+          "nodeIndex": "eligibility_by_age_group",
+          "nodeLineageTag": "fbdd1ca4-ef2b-4be8-a67a-f8516824b4db",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 2
+          },
+          "nodeIndex": "eligibility_by_bmi_category",
+          "nodeLineageTag": "3fbd0dc6-b175-42ff-94d1-51fd835e7c4c",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 2
+          },
+          "nodeIndex": "eligibility_by_race_ethnicity",
+          "nodeLineageTag": "b0a91b7b-c69f-4b1f-b0f7-c1f64b3cde46",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 2
+          },
+          "nodeIndex": "eligibility_by_sex",
+          "nodeLineageTag": "7efd59b5-2662-4c06-a5a7-66cef8d820b5",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 14
+          },
+          "nodeIndex": "eligibility_summary",
+          "nodeLineageTag": "b656352f-4227-4e29-8dbd-39f86f606ef9",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 62
+          },
+          "nodeIndex": "missingness_summary",
+          "nodeLineageTag": "2e82b354-9304-4a4f-9775-983c8788e34e",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2840,
+            "y": 86
+          },
+          "nodeIndex": "sql_validation_summary",
+          "nodeLineageTag": "572e4ff9-b0eb-4b3d-8771-41b0d2d5a55d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

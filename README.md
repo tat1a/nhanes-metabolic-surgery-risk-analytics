@@ -48,7 +48,7 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 - Guideline-like metabolic surgery eligibility classification.
 - Survey-weighted descriptive reporting using MEC exam weights.
 - SQLite validation of key denominators and weighted metrics.
-- Power BI-ready reporting tables and reference report pages.
+- A three-page Power BI report with reusable theme, documented measures, and source-controlled PBIP definitions.
 
 ## Repository Structure
 
@@ -75,9 +75,13 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 │   ├── build_nhanes_metabolic_surgery_dataset.py
 │   ├── build_sqlite_database.py
 │   ├── create_powerbi_previews.py
+│   ├── create_powerbi_project.py
 │   ├── run_sql_validation.py
 │   └── README.md
 ├── powerbi/
+│   ├── NHANES_Metabolic_Surgery_Risk_Analytics.pbip
+│   ├── NHANES_Metabolic_Surgery_Risk_Analytics.Report/
+│   ├── NHANES_Metabolic_Surgery_Risk_Analytics.SemanticModel/
 │   ├── measures.dax
 │   └── theme-metabolic-surgery.json
 ├── reports/
@@ -94,11 +98,10 @@ pip install -r requirements.txt
 python pipeline/build_nhanes_metabolic_surgery_dataset.py
 python pipeline/build_sqlite_database.py
 python pipeline/run_sql_validation.py
-python pipeline/create_powerbi_previews.py
 python -m unittest discover -s tests -v
 ```
 
-The first pipeline run downloads public-use NHANES XPT files into `data/raw/`. Raw XPT files are not tracked in Git; processed dashboard-ready outputs are tracked.
+The first pipeline run downloads public-use NHANES XPT files into `data/raw/`. Raw XPT files are not tracked in Git; processed dashboard-ready outputs are tracked. `pipeline/create_powerbi_previews.py` recreates design mockups and is not part of the routine analysis run because the repository includes screenshots of the completed report.
 
 ## Key Outputs
 
@@ -116,14 +119,16 @@ The first pipeline run downloads public-use NHANES XPT files into `data/raw/`. R
 
 ## Power BI
 
+Open `powerbi/NHANES_Metabolic_Surgery_Risk_Analytics.pbip` in Power BI Desktop. The source-controlled project contains the completed three-page report, semantic model, and measures. Select **Home > Refresh**, then verify 8,295 rows in `analytic_cohort` and 6 rows in `dashboard_kpis` in Table view. A local `.pbix` copy can be saved separately when an imported-data cache is needed.
+
 Use `docs/POWERBI_BUILD_GUIDE.md` with:
 
 - `data/processed/*.csv`
 - `powerbi/measures.dax`
 - `powerbi/theme-metabolic-surgery.json`
-- reference previews in `assets/`
+- completed report screenshots in `assets/`
 
-The recommended report has three pages:
+The report has three pages:
 
 1. Eligibility Overview
 2. Cardiometabolic Risk Profile

@@ -1,6 +1,15 @@
 # Power BI Build Guide
 
-Use this guide with the processed CSV files in `data/processed/`.
+Open `powerbi/NHANES_Metabolic_Surgery_Risk_Analytics.pbip` in Power BI Desktop. The project defines all 11 tables and the measures, but a PBIP file does not carry imported rows until the model is refreshed in Desktop.
+
+## First Open: Load and Verify Data
+
+1. In Power BI Desktop, open the `.pbip` file above.
+2. Select **Home > Refresh**. Wait for every query to finish. The source rows are embedded in the project, so no CSV path or login is required.
+3. Select **Table view** on the left and choose `analytic_cohort`. The status bar should show **8,295 rows**. Confirm that `dashboard_kpis` has **6 rows**.
+4. Select **File > Save as** and save `NHANES_Metabolic_Surgery_Risk_Analytics.pbix` in `powerbi/`. Reopen that `.pbix` and confirm the same row counts before building visuals.
+
+If Power BI reports a missing `model.bim`, the `SemanticModel/definition.pbism` file is outdated. It must specify version `4.2` for this TMDL project. If the tables appear but show no rows, use **Home > Refresh**; opening a PBIP file alone does not import its data.
 
 ## Report Style
 
@@ -17,9 +26,9 @@ Apply theme:
 
 `powerbi/theme-metabolic-surgery.json`
 
-## Import Tables
+## Included Tables
 
-Import these CSV files:
+The project already defines these tables; do not import duplicate CSV copies:
 
 - `analytic_cohort.csv`
 - `dashboard_kpis.csv`
@@ -35,9 +44,7 @@ Import these CSV files:
 
 ## Measures
 
-Create a measure table named `Measures`, then add the DAX formulas from:
-
-`powerbi/measures.dax`
+The measures are already under `analytic_cohort`, organized in `01 Eligibility KPIs` and `02 Risk Signals` display folders. `powerbi/measures.dax` is the reviewable source for their formulas. Do not create same-named measures again.
 
 Recommended formatting:
 
@@ -64,10 +71,10 @@ KPI cards:
 
 | Card title | Field |
 | --- | --- |
-| Analytic cohort | `Measures[Analytic Cohort Adults]` |
-| Weighted eligible | `Measures[Weighted Eligibility Rate]` |
-| BMI >=35 | `Measures[Weighted BMI >=35 Rate]` |
-| BMI 30-34.9 + metabolic disease | `Measures[Weighted BMI 30-34.9 + Metabolic Disease Rate]` |
+| Analytic cohort | `analytic_cohort[Analytic Cohort Adults]` |
+| Weighted eligible | `analytic_cohort[Weighted Eligibility Rate]` |
+| BMI >=35 | `analytic_cohort[Weighted BMI >=35 Rate]` |
+| BMI 30-34.9 + metabolic disease | `analytic_cohort[Weighted BMI 30-34.9 + Metabolic Disease Rate]` |
 
 Main visuals:
 
@@ -92,10 +99,10 @@ KPI cards:
 
 | Card title | Field |
 | --- | --- |
-| Eligible mean BMI | `Measures[Eligible Weighted Mean BMI]` |
-| Eligible diabetes signal | `Measures[Eligible Diabetes Signal Rate]` |
-| Eligible hypertension signal | `Measures[Eligible Hypertension Signal Rate]` |
-| Eligible 2+ risk signals | `Measures[Eligible Adults With 2+ Risk Signals]` |
+| Eligible mean BMI | `analytic_cohort[Eligible Weighted Mean BMI]` |
+| Eligible diabetes signal | `analytic_cohort[Eligible Diabetes Signal Rate]` |
+| Eligible hypertension signal | `analytic_cohort[Eligible Hypertension Signal Rate]` |
+| Eligible 2+ risk signals | `analytic_cohort[Eligible Adults With 2+ Risk Signals]` |
 
 Main visuals:
 

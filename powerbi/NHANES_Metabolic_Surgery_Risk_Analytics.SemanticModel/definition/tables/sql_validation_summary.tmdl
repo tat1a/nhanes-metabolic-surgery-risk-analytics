@@ -20,3 +20,4 @@ table sql_validation_summary
 				    Source = #table(type table [check_name = text, check_value = number], {{"analytic_cohort_n", 8295}, {"unweighted_eligible_n", 3248}, {"unweighted_bmi_35_recommended_n", 1733}, {"unweighted_bmi_30_349_metabolic_n", 1515}, {"eligible_with_2plus_risk_n", 2975}, {"weighted_eligibility_rate", 0.377394367083}, {"weighted_bmi_35_recommended_rate", 0.200004324963}, {"weighted_bmi_30_349_metabolic_rate", 0.177390042121}, {"weighted_mean_bmi_eligible", 36.9084083639}})
 				in
 				    Source
+

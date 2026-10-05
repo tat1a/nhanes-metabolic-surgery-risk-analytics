@@ -35,3 +35,4 @@ table cardiometabolic_risk_summary
 				    Source = #table(type table [risk_signal = text, overall_rate = number, eligible_rate = number, not_eligible_rate = number], {{"Diabetes or A1c diabetes range", 0.138016438042, 0.233199931365, 0.0803206635095}, {"Hypertension or treatment", 0.507763163119, 0.702669379475, 0.389620145656}, {"Dyslipidemia signal", 0.571815296843, 0.747244939168, 0.465478066127}, {"Central adiposity signal", 0.578124245963, 0.939078803485, 0.359330503054}, {"Two or more risk signals", 0.588832604736, 0.915377233863, 0.390896548397}})
 				in
 				    Source
+

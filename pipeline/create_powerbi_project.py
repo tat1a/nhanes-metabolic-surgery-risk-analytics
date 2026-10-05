@@ -244,7 +244,10 @@ def write_semantic_model() -> None:
         ),
         encoding="utf-8",
     )
-    (MODEL_DIR / "definition.pbism").write_text('{"version":"1.0"}\n', encoding="utf-8")
+    (MODEL_DIR / "definition.pbism").write_text(
+        json.dumps({"version": "4.2", "settings": {}}, indent=2) + "\n",
+        encoding="utf-8",
+    )
     (MODEL_DIR / "diagramLayout.json").write_text("{}\n", encoding="utf-8")
     (definition / "database.tmdl").write_text("database\n\tcompatibilityLevel: 1606\n", encoding="utf-8")
 

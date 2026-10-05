@@ -62,3 +62,4 @@ table eligibility_summary
 				    Source = #table(type table [eligibility_group = text, unweighted_n = Int64.Type, weighted_share = number, mean_bmi = number, diabetes_or_lab_range_rate = number, hypertension_or_treatment_rate = number, dyslipidemia_signal_rate = number, mean_risk_signal_count = number], {{"Not guideline-like eligible", 5047, 0.622605632917, 25.4686808603, 0.0803206635095, 0.389620145656, 0.465478066127, 1.29474937835}, {"BMI >=35: guideline-recommended", 1733, 0.200004324963, 41.0335677021, 0.23869317537, 0.662371211582, 0.714947345813, 2.56708330632}, {"BMI 30-34.9 + metabolic disease: consider", 1515, 0.177390042121, 32.2573597541, 0.227006390025, 0.748104894177, 0.783659939016, 2.68432837772}})
 				in
 				    Source
+

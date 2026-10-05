@@ -37,6 +37,7 @@ class PipelineOutputTests(unittest.TestCase):
             POWERBI / f"{PBIP_NAME}.pbip",
             POWERBI / f"{PBIP_NAME}.Report" / "definition" / "pages" / "pages.json",
             POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition" / "model.tmdl",
+            POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition.pbism",
         ]
         for path in expected:
             self.assertTrue(path.exists(), f"Missing expected output: {path}")
@@ -92,6 +93,11 @@ class PipelineOutputTests(unittest.TestCase):
             pbip = json.load(handle)
         self.assertEqual(pbip["artifacts"][0]["report"]["path"], f"{PBIP_NAME}.Report")
 
+        pbism_path = POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition.pbism"
+        with pbism_path.open("r", encoding="utf-8") as handle:
+            pbism = json.load(handle)
+        self.assertGreaterEqual(float(pbism["version"]), 4.0)
+
         model_text = (POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition" / "model.tmdl").read_text(
             encoding="utf-8"
         )
@@ -104,6 +110,11 @@ class PipelineOutputTests(unittest.TestCase):
             "sql_validation_summary",
         ]:
             self.assertIn(f"ref table {table}", model_text)
+
+        cohort_table = (
+            POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition" / "tables" / "analytic_cohort.tmdl"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Source = #table(type table [", cohort_table)
 
         pages_path = POWERBI / f"{PBIP_NAME}.Report" / "definition" / "pages" / "pages.json"
         with pages_path.open("r", encoding="utf-8") as handle:
