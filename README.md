@@ -1,5 +1,7 @@
 # Metabolic Surgery Eligibility and Cardiometabolic Risk Analytics
 
+[![tests](https://github.com/tat1a/nhanes-metabolic-surgery-risk-analytics/actions/workflows/tests.yml/badge.svg)](https://github.com/tat1a/nhanes-metabolic-surgery-risk-analytics/actions/workflows/tests.yml) [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?logo=powerbi&logoColor=black)](powerbi/NHANES_Metabolic_Surgery_Risk_Analytics.pbip) [![License: MIT](https://img.shields.io/badge/License-MIT-0B5CAD.svg)](LICENSE)
+
 Python, SQL, and Power BI portfolio project using public-use NHANES 2017-March 2020 pre-pandemic data. The project demonstrates clinical cohort phenotyping, guideline-like metabolic surgery eligibility logic, cardiometabolic risk engineering, survey-weighted reporting, SQL validation, and dashboard-ready outputs.
 
 ## Project Question
@@ -148,3 +150,5 @@ This project uses public-use, de-identified NHANES survey data. It contains no r
 The project is a reproducible analytics demonstration. It should not be interpreted as medical advice, individual surgical candidacy determination, causal inference, or real-world operative outcome evidence.
 
 Composite risk flags use an any-positive rule across available questionnaire, examination, and laboratory evidence. A zero therefore means that no positive evidence was observed, not necessarily that every component was measured. `risk_domain_completeness.csv` makes ascertainment gaps explicit, and `eligibility_sensitivity.csv` compares the primary estimate with a complete metabolic-disease ascertainment subset.
+
+Repository-authored code and documentation are available under the MIT License.
