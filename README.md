@@ -48,6 +48,7 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 - Guideline-like metabolic surgery eligibility classification.
 - Survey-weighted descriptive reporting using MEC exam weights.
 - SQLite validation of key denominators and weighted metrics.
+- Explicit risk-domain completeness and complete-ascertainment sensitivity audits.
 - A three-page Power BI report with reusable theme, documented measures, and source-controlled PBIP definitions.
 
 ## Repository Structure
@@ -114,6 +115,8 @@ The first pipeline run downloads public-use NHANES XPT files into `data/raw/`. R
 - `data/processed/eligibility_by_race_ethnicity.csv`
 - `data/processed/eligibility_by_bmi_category.csv`
 - `data/processed/missingness_summary.csv`
+- `data/processed/risk_domain_completeness.csv`
+- `data/processed/eligibility_sensitivity.csv`
 - `data/processed/sql_validation_summary.csv`
 - `reports/ANALYST_BRIEF.md`
 
@@ -141,3 +144,5 @@ This project uses public-use, de-identified NHANES survey data. It contains no r
 ## Interpretation Boundary
 
 The project is a reproducible analytics demonstration. It should not be interpreted as medical advice, individual surgical candidacy determination, causal inference, or real-world operative outcome evidence.
+
+Composite risk flags use an any-positive rule across available questionnaire, examination, and laboratory evidence. A zero therefore means that no positive evidence was observed, not necessarily that every component was measured. `risk_domain_completeness.csv` makes ascertainment gaps explicit, and `eligibility_sensitivity.csv` compares the primary estimate with a complete metabolic-disease ascertainment subset.

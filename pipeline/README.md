@@ -14,6 +14,7 @@ This pipeline builds a reproducible NHANES 2017-March 2020 pre-pandemic analytic
    - BMI 30-34.9 kg/m2 with a metabolic disease signal.
 7. Export dashboard-ready processed tables.
 8. Build a SQLite database and SQL validation summary.
+9. Export risk-domain completeness and eligibility sensitivity audits.
 
 ## Run
 

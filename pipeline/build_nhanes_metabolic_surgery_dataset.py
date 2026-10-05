@@ -443,6 +443,89 @@ def make_missingness_summary(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows).sort_values("missing_rate", ascending=False)
 
 
+def make_risk_completeness_outputs(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Audit minimum ascertainment for each composite risk domain.
+
+    The primary phenotype is intentionally any-positive: a domain is positive when
+    any available questionnaire, examination, or laboratory source is positive.
+    These outputs make incomplete ascertainment visible instead of implying that
+    every zero-valued composite has fully observed source data.
+    """
+    raw = load_analytic_inputs()
+    raw = raw[
+        (raw["RIDAGEYR"] >= 20)
+        & (raw["RIDEXPRG"].fillna(2) != 1)
+        & raw["BMXBMI"].notna()
+    ].copy()
+
+    observed = pd.DataFrame({"person_id": raw["SEQN"].astype(int)})
+    observed["Diabetes"] = (
+        raw["DIQ010"].isin([1, 2])
+        | raw["DIQ050"].isin([1, 2])
+        | raw["DIQ070"].isin([1, 2])
+        | raw["LBXGH"].notna()
+    )
+    observed["Hypertension"] = (
+        raw["BPQ020"].isin([1, 2])
+        | raw["BPQ040A"].isin([1, 2])
+        | raw[["BPXOSY1", "BPXOSY2", "BPXOSY3", "BPXODI1", "BPXODI2", "BPXODI3"]]
+        .notna()
+        .any(axis=1)
+    )
+    observed["Dyslipidemia"] = (
+        raw["BPQ080"].isin([1, 2])
+        | raw["BPQ100D"].isin([1, 2])
+        | raw[["LBXTC", "LBDHDD", "LBXTR", "LBDLDL"]].notna().any(axis=1)
+    )
+    observed["Central adiposity"] = raw["BMXWAIST"].notna()
+    observed["Complete metabolic-disease ascertainment"] = observed[
+        ["Diabetes", "Hypertension", "Dyslipidemia"]
+    ].all(axis=1)
+    observed["Complete four-domain risk profile"] = observed[
+        ["Diabetes", "Hypertension", "Dyslipidemia", "Central adiposity"]
+    ].all(axis=1)
+
+    audit_rows = []
+    for domain in observed.columns.drop("person_id"):
+        observed_n = int(observed[domain].sum())
+        audit_rows.append(
+            {
+                "assessment": domain,
+                "observed_n": observed_n,
+                "missing_n": len(observed) - observed_n,
+                "missing_rate": 1 - observed_n / len(observed),
+            }
+        )
+    completeness = pd.DataFrame(audit_rows)
+
+    joined = df.merge(
+        observed[["person_id", "Complete metabolic-disease ascertainment"]],
+        on="person_id",
+        how="left",
+        validate="one_to_one",
+    )
+    complete = joined[joined["Complete metabolic-disease ascertainment"]]
+    primary_rate = weighted_rate(df["guideline_like_eligible"], df["mec_exam_weight"])
+    complete_rate = weighted_rate(complete["guideline_like_eligible"], complete["mec_exam_weight"])
+    sensitivity = pd.DataFrame(
+        [
+            {
+                "analysis_population": "Primary analytic cohort",
+                "unweighted_n": len(df),
+                "weighted_eligibility_rate": primary_rate,
+                "difference_from_primary_pp": 0.0,
+            },
+            {
+                "analysis_population": "Complete metabolic-disease ascertainment",
+                "unweighted_n": len(complete),
+                "weighted_eligibility_rate": complete_rate,
+                "difference_from_primary_pp": (complete_rate - primary_rate) * 100,
+            },
+        ]
+    )
+    return completeness, sensitivity
+
+
 def make_cohort_flow(df: pd.DataFrame) -> pd.DataFrame:
     raw = load_analytic_inputs()
     adults = raw[raw["RIDAGEYR"] >= 20]
@@ -470,6 +553,9 @@ def write_outputs(df: pd.DataFrame) -> None:
     group_summary(df, "race_ethnicity").to_csv(PROCESSED_DIR / "eligibility_by_race_ethnicity.csv", index=False)
     group_summary(df, "bmi_category").to_csv(PROCESSED_DIR / "eligibility_by_bmi_category.csv", index=False)
     make_missingness_summary(df).to_csv(PROCESSED_DIR / "missingness_summary.csv", index=False)
+    completeness, sensitivity = make_risk_completeness_outputs(df)
+    completeness.to_csv(PROCESSED_DIR / "risk_domain_completeness.csv", index=False)
+    sensitivity.to_csv(PROCESSED_DIR / "eligibility_sensitivity.csv", index=False)
     make_cohort_flow(df).to_csv(PROCESSED_DIR / "cohort_flow.csv", index=False)
     create_analyst_brief(df)
 

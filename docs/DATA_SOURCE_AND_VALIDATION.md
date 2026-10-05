@@ -48,6 +48,8 @@ The pipeline exports `sql_validation_summary.csv`, which independently recalcula
 - weighted eligibility rate;
 - weighted BMI-threshold rates;
 - weighted mean BMI among eligible adults.
+- minimum ascertainment completeness for each composite risk domain;
+- weighted eligibility in the primary and complete-ascertainment populations.
 
 Automated tests verify:
 
@@ -63,4 +65,5 @@ Automated tests verify:
 - This project does not include operative outcomes, long-term weight loss, complications, or mortality.
 - Eligibility is guideline-like population phenotyping, not patient-level surgical clearance.
 - Some laboratory components have meaningful missingness, especially fasting lipid measures.
+- Composite risk indicators use any-positive evidence; a zero may include partially observed source components. Separate completeness and sensitivity outputs quantify this limitation.
 - Survey weighting is used for descriptive estimates; this project does not implement full complex-survey variance estimation.

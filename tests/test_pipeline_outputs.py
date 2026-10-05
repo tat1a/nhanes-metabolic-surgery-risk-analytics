@@ -26,6 +26,8 @@ class PipelineOutputTests(unittest.TestCase):
             PROCESSED / "eligibility_by_race_ethnicity.csv",
             PROCESSED / "eligibility_by_bmi_category.csv",
             PROCESSED / "missingness_summary.csv",
+            PROCESSED / "risk_domain_completeness.csv",
+            PROCESSED / "eligibility_sensitivity.csv",
             PROCESSED / "cohort_flow.csv",
             PROCESSED / "sql_validation_summary.csv",
             ASSETS / "dashboard-preview.png",
@@ -82,6 +84,21 @@ class PipelineOutputTests(unittest.TestCase):
         two_plus = summary[summary["risk_signal"] == "Two or more risk signals"].iloc[0]
         self.assertGreater(two_plus["eligible_rate"], two_plus["not_eligible_rate"])
         self.assertGreater(two_plus["eligible_rate"], 0.85)
+
+    def test_missing_risk_domains_are_explicitly_audited(self) -> None:
+        completeness = pd.read_csv(PROCESSED / "risk_domain_completeness.csv").set_index("assessment")
+        self.assertEqual(int(completeness.loc["Complete four-domain risk profile", "missing_n"]), 337)
+        self.assertGreater(
+            int(completeness.loc["Central adiposity", "missing_n"]),
+            int(completeness.loc["Diabetes", "missing_n"]),
+        )
+
+        sensitivity = pd.read_csv(PROCESSED / "eligibility_sensitivity.csv").set_index("analysis_population")
+        primary = sensitivity.loc["Primary analytic cohort", "weighted_eligibility_rate"]
+        complete = sensitivity.loc[
+            "Complete metabolic-disease ascertainment", "weighted_eligibility_rate"
+        ]
+        self.assertLess(abs((complete - primary) * 100), 0.2)
 
     def test_theme_json_is_valid(self) -> None:
         with (POWERBI / "theme-metabolic-surgery.json").open("r", encoding="utf-8") as handle:

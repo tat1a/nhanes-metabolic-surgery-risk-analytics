@@ -48,5 +48,7 @@
 | `eligibility_by_race_ethnicity.csv` | race/ethnicity subgroup reporting |
 | `eligibility_by_bmi_category.csv` | BMI-category reporting |
 | `missingness_summary.csv` | field-level missingness audit |
+| `risk_domain_completeness.csv` | minimum ascertainment audit for composite risk domains |
+| `eligibility_sensitivity.csv` | primary vs complete-ascertainment eligibility estimate |
 | `cohort_flow.csv` | inclusion/exclusion flow |
 | `sql_validation_summary.csv` | independent SQL validation outputs |

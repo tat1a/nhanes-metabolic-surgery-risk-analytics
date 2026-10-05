@@ -46,6 +46,15 @@ The analytic cohort includes adults age 20+ with BMI available. Pregnant partici
 - >=102 cm for men;
 - >=88 cm for women.
 
+### Missing-data and composite-rule handling
+
+Risk domains use an any-positive rule: a domain is positive when any available
+questionnaire, examination, or laboratory component is positive. A zero means no
+positive evidence was observed; it does not assert that every component was
+measured. The pipeline therefore exports `risk_domain_completeness.csv` and a
+complete metabolic-disease ascertainment sensitivity estimate in
+`eligibility_sensitivity.csv`.
+
 ## Eligibility Logic
 
 Guideline-like eligibility is defined as either:
@@ -68,6 +77,7 @@ The pipeline produces:
 - eligibility and risk summaries;
 - demographic subgroup summaries;
 - missingness audit;
+- risk-domain completeness and eligibility sensitivity audits;
 - SQL validation summary;
 - analyst brief;
 - Power BI reference previews.
