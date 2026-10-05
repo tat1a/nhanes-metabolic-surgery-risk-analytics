@@ -64,9 +64,19 @@ Guideline-like eligibility is defined as either:
 
 This operationalizes the eligibility concept for population-level analytics only. It is not medical advice and does not determine individual surgical candidacy.
 
+The dashboard uses this common-threshold definition for comparability across groups.
+The research extension separately evaluates the guideline's Asian-specific BMI
+threshold (BMI >=27.5 kg/m2) in `threshold_sensitivity.csv`.
+
 ## Weighting
 
 Descriptive rates use NHANES MEC exam weights (`WTMECPRP`) from the 2017-March 2020 pre-pandemic release.
+
+Research-facing prevalence estimates additionally account for masked variance
+strata (`SDMVSTRA`) and primary sampling units (`SDMVPSU`) using Taylor
+linearization. The adjusted demographic association model uses survey weights and
+a strata-centered PSU sandwich covariance estimator. See
+`docs/STATISTICAL_ANALYSIS_PLAN.md` for the prespecified analysis.
 
 ## Outputs
 
@@ -81,3 +91,6 @@ The pipeline produces:
 - SQL validation summary;
 - analyst brief;
 - completed Power BI report screenshots.
+- survey-design-aware prevalence estimates with 95% confidence intervals;
+- adjusted demographic associations and model diagnostics;
+- a structured research abstract draft for mentor review.

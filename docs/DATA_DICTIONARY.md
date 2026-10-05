@@ -11,6 +11,8 @@
 | `race_ethnicity` | NHANES race/ethnicity category |
 | `poverty_income_ratio` | family poverty-income ratio |
 | `mec_exam_weight` | NHANES MEC exam weight |
+| `survey_stratum` | masked variance stratum used for design-based variance estimation |
+| `survey_psu` | masked primary sampling unit used for design-based variance estimation |
 | `bmi` | body mass index, kg/m2 |
 | `bmi_category` | BMI category |
 | `waist_cm` | waist circumference in cm |
@@ -34,6 +36,7 @@
 | `meets_bmi_35_recommended` | BMI >=35 kg/m2 flag |
 | `bmi_30_349_with_metabolic_disease` | BMI 30-34.9 with metabolic disease signal |
 | `guideline_like_eligible` | combined guideline-like eligibility flag |
+| `guideline_like_eligible_asian_adjusted` | sensitivity flag applying BMI >=27.5 kg/m2 to non-Hispanic Asian adults |
 | `eligibility_group` | eligibility phenotype group |
 
 ## Reporting Tables
@@ -50,5 +53,9 @@
 | `missingness_summary.csv` | field-level missingness audit |
 | `risk_domain_completeness.csv` | minimum ascertainment audit for composite risk domains |
 | `eligibility_sensitivity.csv` | primary vs complete-ascertainment eligibility estimate |
+| `survey_weighted_prevalence.csv` | overall and demographic prevalence with design-aware 95% confidence intervals |
+| `adjusted_associations.csv` | survey-weighted demographic odds ratios with 95% confidence intervals |
+| `model_diagnostics.csv` | model sample, events, survey design counts, and convergence status |
+| `threshold_sensitivity.csv` | common-threshold vs Asian-adjusted phenotype estimates |
 | `cohort_flow.csv` | inclusion/exclusion flow |
 | `sql_validation_summary.csv` | independent SQL validation outputs |

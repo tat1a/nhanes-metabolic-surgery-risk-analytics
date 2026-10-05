@@ -15,11 +15,15 @@ This pipeline builds a reproducible NHANES 2017-March 2020 pre-pandemic analytic
 7. Export dashboard-ready processed tables.
 8. Build a SQLite database and SQL validation summary.
 9. Export risk-domain completeness and eligibility sensitivity audits.
+10. Estimate design-aware prevalence with 95% confidence intervals.
+11. Fit the prespecified adjusted demographic association model.
+12. Export the Asian-specific BMI-threshold sensitivity analysis and abstract draft.
 
 ## Run
 
 ```bash
 python pipeline/build_nhanes_metabolic_surgery_dataset.py
+python pipeline/run_research_analysis.py
 python pipeline/build_sqlite_database.py
 python pipeline/run_sql_validation.py
 python pipeline/create_powerbi_previews.py

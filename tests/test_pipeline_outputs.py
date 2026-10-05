@@ -30,6 +30,10 @@ class PipelineOutputTests(unittest.TestCase):
             PROCESSED / "missingness_summary.csv",
             PROCESSED / "risk_domain_completeness.csv",
             PROCESSED / "eligibility_sensitivity.csv",
+            PROCESSED / "survey_weighted_prevalence.csv",
+            PROCESSED / "adjusted_associations.csv",
+            PROCESSED / "model_diagnostics.csv",
+            PROCESSED / "threshold_sensitivity.csv",
             PROCESSED / "cohort_flow.csv",
             PROCESSED / "sql_validation_summary.csv",
             ASSETS / "dashboard-preview.png",
@@ -42,6 +46,8 @@ class PipelineOutputTests(unittest.TestCase):
             POWERBI / f"{PBIP_NAME}.Report" / "definition" / "pages" / "pages.json",
             POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition" / "model.tmdl",
             POWERBI / f"{PBIP_NAME}.SemanticModel" / "definition.pbism",
+            ROOT / "docs" / "STATISTICAL_ANALYSIS_PLAN.md",
+            ROOT / "reports" / "ABSTRACT_DRAFT.md",
         ]
         for path in expected:
             self.assertTrue(path.exists(), f"Missing expected output: {path}")
@@ -159,6 +165,34 @@ class PipelineOutputTests(unittest.TestCase):
         self.assertIn("public-use", readme)
         self.assertIn("no phi", readme)
         self.assertIn("no mimic-iv", readme)
+
+    def test_research_outputs_are_design_aware_and_plausible(self) -> None:
+        cohort = pd.read_csv(PROCESSED / "analytic_cohort.csv")
+        self.assertTrue({"survey_stratum", "survey_psu", "mec_exam_weight"}.issubset(cohort.columns))
+
+        prevalence = pd.read_csv(PROCESSED / "survey_weighted_prevalence.csv")
+        overall = prevalence[prevalence["subgroup"] == "Overall"].iloc[0]
+        self.assertEqual(int(overall["unweighted_n"]), 8295)
+        self.assertAlmostEqual(overall["weighted_estimate"], 0.3773943670834901, places=10)
+        self.assertLess(overall["ci_lower"], overall["weighted_estimate"])
+        self.assertGreater(overall["ci_upper"], overall["weighted_estimate"])
+
+        associations = pd.read_csv(PROCESSED / "adjusted_associations.csv")
+        self.assertEqual(len(associations), 9)
+        self.assertTrue((associations["adjusted_odds_ratio"] > 0).all())
+        self.assertTrue((associations["ci_lower"] < associations["adjusted_odds_ratio"]).all())
+        self.assertTrue((associations["ci_upper"] > associations["adjusted_odds_ratio"]).all())
+
+        sensitivity = pd.read_csv(PROCESSED / "threshold_sensitivity.csv").set_index(
+            ["population", "definition"]
+        )
+        common_asian = sensitivity.loc[
+            ("Non-Hispanic Asian", "Common adult BMI thresholds"), "weighted_estimate"
+        ]
+        adjusted_asian = sensitivity.loc[
+            ("Non-Hispanic Asian", "Asian-adjusted BMI threshold sensitivity"), "weighted_estimate"
+        ]
+        self.assertGreater(adjusted_asian, common_asian)
 
 
 if __name__ == "__main__":

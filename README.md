@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/tat1a/nhanes-metabolic-surgery-risk-analytics/actions/workflows/tests.yml/badge.svg)](https://github.com/tat1a/nhanes-metabolic-surgery-risk-analytics/actions/workflows/tests.yml) [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?logo=powerbi&logoColor=black)](powerbi/NHANES_Metabolic_Surgery_Risk_Analytics.pbip) [![License: MIT](https://img.shields.io/badge/License-MIT-0B5CAD.svg)](LICENSE)
 
-Python, SQL, and Power BI portfolio project using public-use NHANES 2017-March 2020 pre-pandemic data. The project demonstrates clinical cohort phenotyping, guideline-like metabolic surgery eligibility logic, cardiometabolic risk engineering, survey-weighted reporting, SQL validation, and dashboard-ready outputs.
+Python, SQL, and Power BI research portfolio project using public-use NHANES 2017-March 2020 pre-pandemic data. The project demonstrates clinical cohort phenotyping, guideline-like metabolic surgery eligibility logic, complex-survey estimation, adjusted association modeling, SQL validation, and dashboard-ready outputs.
 
 ## Project Question
 
@@ -39,6 +39,10 @@ Additional report previews:
 | Weighted mean BMI among eligible adults | 36.9 kg/m2 |
 | Eligible adults with 2+ cardiometabolic risk signals | 91.5% |
 
+The design-aware overall eligibility estimate was 37.7% (95% CI, 35.6%-39.9%).
+Adjusted demographic associations are reported as odds ratios with 95% confidence
+intervals in `data/processed/adjusted_associations.csv`.
+
 Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% for diabetes or A1c diabetes range, 70.3% for hypertension or treatment, 74.7% for dyslipidemia signal, and 93.9% for central adiposity signal.
 
 ## What This Project Demonstrates
@@ -48,7 +52,8 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 - Adult analytic cohort construction with pregnancy exclusion for BMI-based phenotyping.
 - Clinical feature engineering for BMI class, diabetes signal, hypertension signal, dyslipidemia signal, central adiposity, and risk burden.
 - Guideline-like metabolic surgery eligibility classification.
-- Survey-weighted descriptive reporting using MEC exam weights.
+- Survey-weighted prevalence estimates using MEC exam weights, strata, and PSUs.
+- Taylor-linearized 95% confidence intervals and an adjusted demographic association model.
 - SQLite validation of key denominators and weighted metrics.
 - Explicit risk-domain completeness and complete-ascertainment sensitivity audits.
 - A three-page Power BI report with reusable theme, documented measures, and source-controlled PBIP definitions.
@@ -72,7 +77,8 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 │   ├── DATA_DICTIONARY.md
 │   ├── DATA_SOURCE_AND_VALIDATION.md
 │   ├── METHODS.md
-│   └── POWERBI_BUILD_GUIDE.md
+│   ├── POWERBI_BUILD_GUIDE.md
+│   └── STATISTICAL_ANALYSIS_PLAN.md
 ├── pipeline/
 │   ├── 04_sql_validation.sql
 │   ├── build_nhanes_metabolic_surgery_dataset.py
@@ -80,6 +86,7 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 │   ├── create_powerbi_previews.py
 │   ├── create_powerbi_project.py
 │   ├── run_sql_validation.py
+│   ├── run_research_analysis.py
 │   └── README.md
 ├── powerbi/
 │   ├── NHANES_Metabolic_Surgery_Risk_Analytics.pbip
@@ -88,6 +95,7 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 │   ├── measures.dax
 │   └── theme-metabolic-surgery.json
 ├── reports/
+│   ├── ABSTRACT_DRAFT.md
 │   └── ANALYST_BRIEF.md
 ├── requirements.txt
 └── tests/
@@ -99,6 +107,7 @@ Among guideline-like eligible adults, weighted risk-signal prevalence was 23.3% 
 ```bash
 pip install -r requirements.txt
 python pipeline/build_nhanes_metabolic_surgery_dataset.py
+python pipeline/run_research_analysis.py
 python pipeline/build_sqlite_database.py
 python pipeline/run_sql_validation.py
 python -m unittest discover -s tests -v
@@ -121,7 +130,13 @@ The first pipeline run downloads public-use NHANES XPT files into `data/raw/`. R
 - `data/processed/missingness_summary.csv`
 - `data/processed/risk_domain_completeness.csv`
 - `data/processed/eligibility_sensitivity.csv`
+- `data/processed/survey_weighted_prevalence.csv`
+- `data/processed/adjusted_associations.csv`
+- `data/processed/model_diagnostics.csv`
+- `data/processed/threshold_sensitivity.csv`
 - `data/processed/sql_validation_summary.csv`
+- `docs/STATISTICAL_ANALYSIS_PLAN.md`
+- `reports/ABSTRACT_DRAFT.md`
 - `reports/ANALYST_BRIEF.md`
 
 ## Power BI

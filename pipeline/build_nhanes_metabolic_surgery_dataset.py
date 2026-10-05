@@ -176,6 +176,8 @@ def build_analytic_cohort() -> pd.DataFrame:
     df["race_ethnicity"] = df["RIDRETH3"].map(RACE_MAP).fillna("Unknown")
     df["poverty_income_ratio"] = df["INDFMPIR"]
     df["mec_exam_weight"] = df["WTMECPRP"].fillna(0)
+    df["survey_stratum"] = df["SDMVSTRA"].astype(int)
+    df["survey_psu"] = df["SDMVPSU"].astype(int)
 
     df["bmi"] = df["BMXBMI"]
     df["bmi_category"] = classify_bmi(df["bmi"])
@@ -246,6 +248,10 @@ def build_analytic_cohort() -> pd.DataFrame:
     df["guideline_like_eligible"] = (
         (df["meets_bmi_35_recommended"] == 1) | (df["bmi_30_349_with_metabolic_disease"] == 1)
     ).astype(int)
+    df["guideline_like_eligible_asian_adjusted"] = (
+        (df["guideline_like_eligible"] == 1)
+        | (df["race_ethnicity"].eq("Non-Hispanic Asian") & df["bmi"].ge(27.5))
+    ).astype(int)
     df["eligibility_group"] = np.select(
         [
             df["meets_bmi_35_recommended"] == 1,
@@ -271,6 +277,8 @@ def build_analytic_cohort() -> pd.DataFrame:
         "race_ethnicity",
         "poverty_income_ratio",
         "mec_exam_weight",
+        "survey_stratum",
+        "survey_psu",
         "bmi",
         "bmi_category",
         "waist_cm",
@@ -294,6 +302,7 @@ def build_analytic_cohort() -> pd.DataFrame:
         "meets_bmi_35_recommended",
         "bmi_30_349_with_metabolic_disease",
         "guideline_like_eligible",
+        "guideline_like_eligible_asian_adjusted",
         "eligibility_group",
     ]
     return df[columns].sort_values("person_id").reset_index(drop=True)
