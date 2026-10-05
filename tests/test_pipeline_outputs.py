@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -105,7 +107,7 @@ class PipelineOutputTests(unittest.TestCase):
             parsed = json.load(handle)
         self.assertEqual(parsed["name"], "Metabolic Surgery Clinical Research")
 
-    def test_starter_powerbi_project_has_expected_tables_and_pages(self) -> None:
+    def test_powerbi_project_has_expected_tables_and_pages(self) -> None:
         with (POWERBI / f"{PBIP_NAME}.pbip").open("r", encoding="utf-8") as handle:
             pbip = json.load(handle)
         self.assertEqual(pbip["artifacts"][0]["report"]["path"], f"{PBIP_NAME}.Report")
@@ -140,6 +142,17 @@ class PipelineOutputTests(unittest.TestCase):
             pages["pageOrder"],
             ["eligibilityOverview", "riskProfile", "equityAudit"],
         )
+
+    def test_powerbi_regeneration_requires_explicit_force(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "pipeline" / "create_powerbi_project.py")],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Refusing to replace the completed Power BI project", result.stderr)
 
     def test_no_restricted_data_claims(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8").lower()

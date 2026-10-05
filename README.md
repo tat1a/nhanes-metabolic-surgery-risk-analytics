@@ -102,6 +102,8 @@ python pipeline/run_sql_validation.py
 python -m unittest discover -s tests -v
 ```
 
+The pinned environment targets Python 3.12.
+
 The first pipeline run downloads public-use NHANES XPT files into `data/raw/`. Raw XPT files are not tracked in Git; processed dashboard-ready outputs are tracked. `pipeline/create_powerbi_previews.py` recreates design mockups and is not part of the routine analysis run because the repository includes screenshots of the completed report.
 
 ## Key Outputs

@@ -27,3 +27,6 @@ python -m unittest discover -s tests -v
 ```
 
 The analysis uses public-use, de-identified survey data. It does not use patient records, PHI, MIMIC-IV, or restricted clinical data.
+
+`create_powerbi_project.py` is a guarded regeneration utility. It will not replace
+the completed Power BI report unless `--force` is supplied explicitly.

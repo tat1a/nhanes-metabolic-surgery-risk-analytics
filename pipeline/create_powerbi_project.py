@@ -1,12 +1,13 @@
-"""Create a starter Power BI Project (.pbip) with loaded NHANES tables.
+"""Create a Power BI Project (.pbip) with embedded NHANES reporting tables.
 
-The generated project contains a semantic model with embedded processed tables,
-grouped DAX measures, and three blank report pages ready for manual visual design.
+This utility is intended for deliberate project regeneration. It requires an
+explicit --force flag because regeneration replaces the existing report and model.
 """
 
 from __future__ import annotations
 
 import csv
+import argparse
 import json
 import math
 import re
@@ -412,12 +413,28 @@ def write_pbip() -> None:
     )
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Replace the existing Power BI report and semantic model.",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
+    if (REPORT_DIR.exists() or MODEL_DIR.exists() or PBIP_PATH.exists()) and not args.force:
+        raise SystemExit(
+            "Refusing to replace the completed Power BI project. "
+            "Use --force only when intentional regeneration is required."
+        )
     clean_existing_project()
     write_semantic_model()
     write_report()
     write_pbip()
-    print(f"Created starter Power BI project: {PBIP_PATH}")
+    print(f"Regenerated Power BI project: {PBIP_PATH}")
 
 
 if __name__ == "__main__":

@@ -80,4 +80,4 @@ The pipeline produces:
 - risk-domain completeness and eligibility sensitivity audits;
 - SQL validation summary;
 - analyst brief;
-- Power BI reference previews.
+- completed Power BI report screenshots.
