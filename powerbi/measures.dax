@@ -1,0 +1,90 @@
+-- Suggested measures for the Power BI report.
+-- Create these in a dedicated measure table named Measures.
+
+Analytic Cohort Adults =
+COUNTROWS ( analytic_cohort )
+
+Weighted Population =
+SUM ( analytic_cohort[mec_exam_weight] )
+
+Weighted Eligible Population =
+SUMX (
+    analytic_cohort,
+    analytic_cohort[mec_exam_weight] * analytic_cohort[guideline_like_eligible]
+)
+
+Weighted Eligibility Rate =
+DIVIDE ( [Weighted Eligible Population], [Weighted Population] )
+
+Weighted BMI >=35 Rate =
+DIVIDE (
+    SUMX (
+        analytic_cohort,
+        analytic_cohort[mec_exam_weight] * analytic_cohort[meets_bmi_35_recommended]
+    ),
+    [Weighted Population]
+)
+
+Weighted BMI 30-34.9 + Metabolic Disease Rate =
+DIVIDE (
+    SUMX (
+        analytic_cohort,
+        analytic_cohort[mec_exam_weight] * analytic_cohort[bmi_30_349_with_metabolic_disease]
+    ),
+    [Weighted Population]
+)
+
+Weighted Mean BMI =
+DIVIDE (
+    SUMX ( analytic_cohort, analytic_cohort[mec_exam_weight] * analytic_cohort[bmi] ),
+    [Weighted Population]
+)
+
+Eligible Weighted Mean BMI =
+DIVIDE (
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight] * analytic_cohort[bmi]
+    ),
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+    )
+)
+
+Weighted Diabetes Signal Rate =
+DIVIDE (
+    SUMX ( analytic_cohort, analytic_cohort[mec_exam_weight] * analytic_cohort[diabetes_or_lab_range] ),
+    [Weighted Population]
+)
+
+Weighted Hypertension Signal Rate =
+DIVIDE (
+    SUMX ( analytic_cohort, analytic_cohort[mec_exam_weight] * analytic_cohort[hypertension_or_treatment] ),
+    [Weighted Population]
+)
+
+Weighted Dyslipidemia Signal Rate =
+DIVIDE (
+    SUMX ( analytic_cohort, analytic_cohort[mec_exam_weight] * analytic_cohort[dyslipidemia_signal] ),
+    [Weighted Population]
+)
+
+Weighted Central Adiposity Signal Rate =
+DIVIDE (
+    SUMX ( analytic_cohort, analytic_cohort[mec_exam_weight] * analytic_cohort[central_adiposity_signal] ),
+    [Weighted Population]
+)
+
+Eligible Adults With 2+ Risk Signals =
+DIVIDE (
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+            * IF ( analytic_cohort[cardiometabolic_risk_count] >= 2, 1, 0 )
+    ),
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+    )
+)

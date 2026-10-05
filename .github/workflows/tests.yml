@@ -1,0 +1,24 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build outputs
+        run: |
+          python pipeline/build_nhanes_metabolic_surgery_dataset.py
+          python pipeline/build_sqlite_database.py
+          python pipeline/run_sql_validation.py
+          python pipeline/create_powerbi_previews.py
+      - name: Run tests
+        run: python -m unittest discover -s tests -v

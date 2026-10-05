@@ -1,0 +1,92 @@
+{
+  "name": "Metabolic Surgery Clinical Research",
+  "dataColors": [
+    "#2F64D6",
+    "#008C8C",
+    "#C2416B",
+    "#D97706",
+    "#6D5BD0",
+    "#2E7D5B",
+    "#475467",
+    "#94A3B8"
+  ],
+  "background": "#F6F7FB",
+  "foreground": "#111827",
+  "tableAccent": "#008C8C",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [
+          {
+            "fontFace": "Aptos",
+            "fontSize": 12,
+            "color": {
+              "solid": {
+                "color": "#111827"
+              }
+            }
+          }
+        ],
+        "labels": [
+          {
+            "fontFace": "Aptos",
+            "fontSize": 10,
+            "color": {
+              "solid": {
+                "color": "#344054"
+              }
+            }
+          }
+        ],
+        "categoryAxis": [
+          {
+            "fontFace": "Aptos",
+            "fontSize": 10,
+            "color": {
+              "solid": {
+                "color": "#475467"
+              }
+            }
+          }
+        ],
+        "valueAxis": [
+          {
+            "fontFace": "Aptos",
+            "fontSize": 10,
+            "color": {
+              "solid": {
+                "color": "#667085"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "labels": [
+          {
+            "fontFace": "Aptos",
+            "fontSize": 28,
+            "color": {
+              "solid": {
+                "color": "#111827"
+              }
+            }
+          }
+        ],
+        "categoryLabels": [
+          {
+            "fontFace": "Aptos",
+            "fontSize": 11,
+            "color": {
+              "solid": {
+                "color": "#667085"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

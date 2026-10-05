@@ -1,0 +1,94 @@
+from __future__ import annotations
+
+import json
+import unittest
+from pathlib import Path
+
+import pandas as pd
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PROCESSED = ROOT / "data" / "processed"
+ASSETS = ROOT / "assets"
+POWERBI = ROOT / "powerbi"
+
+
+class PipelineOutputTests(unittest.TestCase):
+    def test_expected_outputs_exist(self) -> None:
+        expected = [
+            PROCESSED / "analytic_cohort.csv",
+            PROCESSED / "dashboard_kpis.csv",
+            PROCESSED / "eligibility_summary.csv",
+            PROCESSED / "cardiometabolic_risk_summary.csv",
+            PROCESSED / "eligibility_by_age_group.csv",
+            PROCESSED / "eligibility_by_sex.csv",
+            PROCESSED / "eligibility_by_race_ethnicity.csv",
+            PROCESSED / "eligibility_by_bmi_category.csv",
+            PROCESSED / "missingness_summary.csv",
+            PROCESSED / "cohort_flow.csv",
+            PROCESSED / "sql_validation_summary.csv",
+            ASSETS / "dashboard-preview.png",
+            ASSETS / "powerbi-page-1-eligibility-overview.png",
+            ASSETS / "powerbi-page-2-risk-profile.png",
+            ASSETS / "powerbi-page-3-equity-audit.png",
+            POWERBI / "theme-metabolic-surgery.json",
+            POWERBI / "measures.dax",
+        ]
+        for path in expected:
+            self.assertTrue(path.exists(), f"Missing expected output: {path}")
+
+    def test_dashboard_kpis_are_consistent(self) -> None:
+        kpis = pd.read_csv(PROCESSED / "dashboard_kpis.csv").set_index("metric")["value"]
+        self.assertEqual(int(kpis["Analytic cohort adults"]), 8295)
+        self.assertAlmostEqual(kpis["Weighted eligibility rate"], 0.3773943670834901, places=10)
+        self.assertAlmostEqual(kpis["BMI >=35 recommended rate"], 0.20000432496298853, places=10)
+        self.assertAlmostEqual(kpis["BMI 30-34.9 + metabolic disease rate"], 0.17739004212050155, places=10)
+        self.assertAlmostEqual(kpis["Mean BMI among eligible adults"], 36.90840836390581, places=10)
+
+    def test_eligibility_logic_is_mutually_consistent(self) -> None:
+        cohort = pd.read_csv(PROCESSED / "analytic_cohort.csv")
+        recomputed = (
+            (cohort["meets_bmi_35_recommended"] == 1)
+            | (cohort["bmi_30_349_with_metabolic_disease"] == 1)
+        ).astype(int)
+        self.assertTrue((cohort["guideline_like_eligible"] == recomputed).all())
+        self.assertFalse(
+            (
+                (cohort["meets_bmi_35_recommended"] == 1)
+                & (cohort["bmi_30_349_with_metabolic_disease"] == 1)
+            ).any()
+        )
+
+    def test_sql_validation_matches_python_kpis(self) -> None:
+        sql = pd.read_csv(PROCESSED / "sql_validation_summary.csv").set_index("check_name")["check_value"]
+        kpis = pd.read_csv(PROCESSED / "dashboard_kpis.csv").set_index("metric")["value"]
+        self.assertEqual(int(sql["analytic_cohort_n"]), int(kpis["Analytic cohort adults"]))
+        self.assertAlmostEqual(sql["weighted_eligibility_rate"], kpis["Weighted eligibility rate"], places=10)
+        self.assertAlmostEqual(sql["weighted_bmi_35_recommended_rate"], kpis["BMI >=35 recommended rate"], places=10)
+        self.assertAlmostEqual(
+            sql["weighted_bmi_30_349_metabolic_rate"],
+            kpis["BMI 30-34.9 + metabolic disease rate"],
+            places=10,
+        )
+        self.assertAlmostEqual(sql["weighted_mean_bmi_eligible"], kpis["Mean BMI among eligible adults"], places=10)
+
+    def test_risk_burden_is_higher_in_eligible_group(self) -> None:
+        summary = pd.read_csv(PROCESSED / "cardiometabolic_risk_summary.csv")
+        two_plus = summary[summary["risk_signal"] == "Two or more risk signals"].iloc[0]
+        self.assertGreater(two_plus["eligible_rate"], two_plus["not_eligible_rate"])
+        self.assertGreater(two_plus["eligible_rate"], 0.85)
+
+    def test_theme_json_is_valid(self) -> None:
+        with (POWERBI / "theme-metabolic-surgery.json").open("r", encoding="utf-8") as handle:
+            parsed = json.load(handle)
+        self.assertEqual(parsed["name"], "Metabolic Surgery Clinical Research")
+
+    def test_no_restricted_data_claims(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8").lower()
+        self.assertIn("public-use", readme)
+        self.assertIn("no phi", readme)
+        self.assertIn("no mimic-iv", readme)
+
+
+if __name__ == "__main__":
+    unittest.main()

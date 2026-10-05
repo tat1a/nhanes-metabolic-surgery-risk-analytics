@@ -1,0 +1,7 @@
+metric,value,format
+Analytic cohort adults,8295.0,count
+Weighted eligibility rate,0.3773943670834901,percent
+BMI >=35 recommended rate,0.20000432496298853,percent
+BMI 30-34.9 + metabolic disease rate,0.17739004212050155,percent
+Mean BMI among eligible adults,36.90840836390581,decimal
+Eligible adults with 2+ risk signals,0.9153772338630976,percent

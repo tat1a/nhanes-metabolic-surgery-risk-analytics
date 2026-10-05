@@ -1,0 +1,6 @@
+data/raw/*.XPT
+data/raw/*.xpt
+data/processed/*.sqlite
+__pycache__/
+*.pyc
+.venv/

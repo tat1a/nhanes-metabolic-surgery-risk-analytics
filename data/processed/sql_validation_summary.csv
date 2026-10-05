@@ -1,0 +1,10 @@
+check_name,check_value
+analytic_cohort_n,8295.0
+unweighted_eligible_n,3248.0
+unweighted_bmi_35_recommended_n,1733.0
+unweighted_bmi_30_349_metabolic_n,1515.0
+eligible_with_2plus_risk_n,2975.0
+weighted_eligibility_rate,0.3773943670834901
+weighted_bmi_35_recommended_rate,0.20000432496298853
+weighted_bmi_30_349_metabolic_rate,0.17739004212050155
+weighted_mean_bmi_eligible,36.908408363905814
