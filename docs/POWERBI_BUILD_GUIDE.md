@@ -50,6 +50,7 @@ Recommended formatting:
 | `Weighted Mean BMI` | decimal, 1 decimal |
 | `Eligible Weighted Mean BMI` | decimal, 1 decimal |
 | risk-signal rates | percentage, 1 decimal |
+| eligible risk-signal rates | percentage, 1 decimal |
 
 ## Page 1: Eligibility Overview
 
@@ -92,8 +93,8 @@ KPI cards:
 | Card title | Field |
 | --- | --- |
 | Eligible mean BMI | `Measures[Eligible Weighted Mean BMI]` |
-| Eligible diabetes signal | `cardiometabolic_risk_summary[eligible_rate]` filtered to diabetes row |
-| Eligible hypertension signal | `cardiometabolic_risk_summary[eligible_rate]` filtered to hypertension row |
+| Eligible diabetes signal | `Measures[Eligible Diabetes Signal Rate]` |
+| Eligible hypertension signal | `Measures[Eligible Hypertension Signal Rate]` |
 | Eligible 2+ risk signals | `Measures[Eligible Adults With 2+ Risk Signals]` |
 
 Main visuals:

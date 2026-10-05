@@ -88,3 +88,51 @@ DIVIDE (
         analytic_cohort[mec_exam_weight]
     )
 )
+
+Eligible Diabetes Signal Rate =
+DIVIDE (
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight] * analytic_cohort[diabetes_or_lab_range]
+    ),
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+    )
+)
+
+Eligible Hypertension Signal Rate =
+DIVIDE (
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight] * analytic_cohort[hypertension_or_treatment]
+    ),
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+    )
+)
+
+Eligible Dyslipidemia Signal Rate =
+DIVIDE (
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight] * analytic_cohort[dyslipidemia_signal]
+    ),
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+    )
+)
+
+Eligible Central Adiposity Signal Rate =
+DIVIDE (
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight] * analytic_cohort[central_adiposity_signal]
+    ),
+    SUMX (
+        FILTER ( analytic_cohort, analytic_cohort[guideline_like_eligible] = 1 ),
+        analytic_cohort[mec_exam_weight]
+    )
+)
